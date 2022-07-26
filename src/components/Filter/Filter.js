@@ -1,4 +1,4 @@
-import { filterContact } from "components/store/contacts/actions";
+import { filterContact } from "store/contacts/actions";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
