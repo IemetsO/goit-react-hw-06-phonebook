@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import s from './Form.module.css';
 import { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from 'components/store/contacts/actions';
 
-export default function Form({ onSubmit }) {
+
+
+export default function Form() {
+  const dispatch = useDispatch();
+  const contacts = useSelector(state => state.contacts.items);
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
-  const handleChange = event => {
+  const handleChange = useCallback(event => {
     const { name, value } = event.target;
     switch (name) {
       case 'name':
@@ -21,13 +26,23 @@ export default function Form({ onSubmit }) {
       default:
         return;
     }
-  };
+  },[setName, setNumber] );
 
-  const handleSubmit = event => {
-    event.preventDefault();
-    onSubmit({name: name, number: number});
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    if (
+      contacts.find(
+        contact => contact.name.toLowerCase() === name.toLowerCase()
+      )
+    ) {
+      return alert(`${name}, is already in your contacts`);
+    }
+    dispatch(addContact({ name, number }));
     reset();
   };
+
+  
 
   const reset = () => {
     setName('');
@@ -69,6 +84,3 @@ export default function Form({ onSubmit }) {
     </form>
   );
 }
-Form.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
