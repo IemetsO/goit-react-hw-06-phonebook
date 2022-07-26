@@ -4,12 +4,12 @@ import { BrowserRouter } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
 import App from './components/App';
 import { PersistGate } from 'redux-persist/integration/react';
-import store from './components/store/contacts/index';
+import storeP from './components/store/contacts/index';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <Provider store={store.store}>
-    <PersistGate loading={null} persistor ={store.persistor}>
+  <Provider store={storeP.store}>
+    <PersistGate loading={null} persistor ={storeP.persistor}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
